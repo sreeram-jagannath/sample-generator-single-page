@@ -117,7 +117,7 @@ if __name__ == "__main__":
             label="Sampling Fraction",
             min_value=0.00,
             max_value=1.00,
-            value=0.10,
+            value=1.00,
             step=0.01,
             key="store_frac",
         )
