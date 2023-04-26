@@ -1,0 +1,4 @@
+*.zip
+env
+notebooks
+__pycache__

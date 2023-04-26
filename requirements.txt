@@ -1,0 +1,4 @@
+sdv
+table-evaluator
+streamlit==1.21.0
+openpyxl
