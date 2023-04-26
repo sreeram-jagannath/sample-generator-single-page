@@ -84,7 +84,7 @@ if __name__ == "__main__":
 
     header_ui(title="Synthetic Order Generation Tool")
 
-    all_files = st.file_uploader(label="Upload Data and Metadata", accept_multiple_files=True, help="Upload the store data, product data, tranasaction data and the metadata")
+    all_files = st.file_uploader(label="Upload the store data, product data, tranasaction data and the metadata", accept_multiple_files=True, help="Select multiple files together and upload")
 
     st.divider()
 
@@ -120,6 +120,7 @@ if __name__ == "__main__":
             value=1.00,
             step=0.01,
             key="store_frac",
+            help="Fraction of rows that we want from the stores data"
         )
 
 
@@ -202,7 +203,7 @@ if __name__ == "__main__":
             st.markdown(body="<h2 align=center> Generate samples </h2>", unsafe_allow_html=True)
 
             # Float scale value input
-            scale = st.number_input(label="Scale", value=2.0, step=0.1)
+            scale = st.number_input(label="Scale", value=2.0, step=0.1, help="Scale the number of rows in synthetic data")
 
             _, bt2, _ = st.columns([2, 2, 1])  # train model button container
             if bt2.button(label="Generate Data"):
@@ -240,7 +241,7 @@ if __name__ == "__main__":
 
             options = {
                 "store": ["STORE_TYPE", "REGION"],
-                "transaction": ["QUANTITY",	"SALES_VALUE",	"TRANS_TIME",],
+                "transaction": ["QUANTITY",	"SALES_VALUE"],
                 "product": ["DEPARTMENT", "BRAND"],
             }
 
