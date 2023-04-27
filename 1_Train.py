@@ -188,7 +188,7 @@ if __name__ == "__main__":
 
         # read in the metadata
         metadata = MultiTableMetadata.load_from_json(
-            filepath="./Pepsico App/real_data/Dunhumby_Metadata_v2.json"
+            filepath="./Pepsico App/real_data/Store_Metadata_v2.json"
         )
 
         # store the real data in session state, so that we can use them
