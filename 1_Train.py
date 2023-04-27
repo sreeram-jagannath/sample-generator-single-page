@@ -35,10 +35,12 @@ def generate_data_demo():
             "./Pepsico App/synth_data/transaction_synth.xlsx"
         )
 
-        transaction_synth_df.SALES_VALUE = np.where(transaction_synth_df.SALES_VALUE > 60,
-                                                     transaction_synth_df.SALES_VALUE - 67, transaction_synth_df.SALES_VALUE,)
+        transaction_synth_df.SALES_VALUE = np.where(transaction_synth_df.SALES_VALUE>60 , transaction_synth_df.SALES_VALUE- 68,
+                                                  transaction_synth_df.SALES_VALUE)
+                                            
+        alt_value_sales = [random.triangular(0,10,1) for _ in range(0,transaction_synth_df.shape[0])]
 
-        transaction_synth_df.SALES_VALUE = np.abs(transaction_synth_df.SALES_VALUE)
+        transaction_synth_df.SALES_VALUE  = np.where(transaction_synth_df.SALES_VALUE <0, alt_value_sales,transaction_synth_df.SALES_VALUE  )
 
         raw_synthetic_data_dict = {
             "product": product_synth_df,
@@ -210,17 +212,23 @@ if __name__ == "__main__":
                 st.session_state["generate_button"] = not st.session_state["generate_button"]
                 # st.session_state["generate_button"] = True
 
-                synth_data = generate_data_demo()
-                st.session_state["filtered_synth_data"] = synth_data
+                
+
+                with st.spinner(text="Generating synthetic data"):
+
+                    synth_data = generate_data_demo()
+                    st.session_state["filtered_synth_data"] = synth_data
+
+                    
+                    st.session_state["data_generated"] = True
+
+                    quality_report = evaluate_quality(
+                        real_data=st.session_state.get("real_data"),
+                        synthetic_data=synth_data,
+                        metadata=st.session_state.get("metadata"),
+                    )
 
                 st.success("Generated synthetic data!")
-                st.session_state["data_generated"] = True
-
-                quality_report = evaluate_quality(
-                    real_data=st.session_state.get("real_data"),
-                    synthetic_data=synth_data,
-                    metadata=st.session_state.get("metadata"),
-                )
 
                 # App output:
                 st.write(f"Overall Quality Score: {quality_report.get_score():.2%}")
@@ -241,7 +249,7 @@ if __name__ == "__main__":
 
             options = {
                 "store": ["STORE_TYPE", "REGION"],
-                "transaction": ["QUANTITY",	"SALES_VALUE"],
+                "transaction": ["SALES_VALUE", "QUANTITY"],
                 "product": ["DEPARTMENT", "BRAND"],
             }
 

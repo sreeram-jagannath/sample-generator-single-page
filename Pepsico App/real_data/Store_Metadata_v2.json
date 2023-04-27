@@ -1,0 +1,69 @@
+{
+    "tables": {
+        "product": {
+            "primary_key": "PRODUCT_ID",
+            "columns": {
+                "PRODUCT_ID": {
+                    "sdtype": "id"
+                },
+                "DEPARTMENT": {
+                    "sdtype": "categorical"
+                },
+                "BRAND": {
+                    "sdtype": "categorical"
+                }
+            }
+        },
+        "transaction": {
+            "columns": {
+                "STORE_ID": {
+                    "sdtype": "id"
+                },
+                "ORDER_ID": {
+                    "sdtype": "id"
+                },
+                "PRODUCT_ID": {
+                    "sdtype": "id"
+                },
+                "QUANTITY": {
+                    "sdtype": "numerical"
+                },
+                "SALES_VALUE": {
+                    "sdtype": "numerical"
+                },
+                "TRANS_TIME": {
+                    "sdtype": "numerical"
+                }
+            }
+        },
+        "store": {
+            "primary_key": "STORE_ID",
+            "columns": {
+                "STORE_ID": {
+                    "sdtype": "id"
+                },
+                "STORE_TYPE": {
+                    "sdtype": "categorical"
+                },
+                "REGION": {
+                    "sdtype": "categorical"
+                }
+            }
+        }
+    },
+    "relationships": [
+        {
+            "parent_table_name": "store",
+            "child_table_name": "transaction",
+            "parent_primary_key": "STORE_ID",
+            "child_foreign_key": "STORE_ID"
+        },
+        {
+            "parent_table_name": "product",
+            "child_table_name": "transaction",
+            "parent_primary_key": "PRODUCT_ID",
+            "child_foreign_key": "PRODUCT_ID"
+        }
+    ],
+    "METADATA_SPEC_VERSION": "MULTI_TABLE_V1"
+}
