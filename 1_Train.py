@@ -29,10 +29,10 @@ def train_model_demo(metadata, real_data):
 
 def generate_data_demo():
     if not st.session_state.get("raw_synthetic_data"):
-        store_synth_df = pd.read_excel("./Pepsico App/synth_data/store_synth.xlsx")
-        product_synth_df = pd.read_excel("./Pepsico App/synth_data/product_synth.xlsx")
-        transaction_synth_df = pd.read_excel(
-            "./Pepsico App/synth_data/transaction_synth.xlsx"
+        store_synth_df = pd.read_parquet("./Pepsico App/synth_data/store_synth.parquet")
+        product_synth_df = pd.read_parquet("./Pepsico App/synth_data/product_synth.parquet")
+        transaction_synth_df = pd.read_parquet(
+            "./Pepsico App/synth_data/transaction_synth.parquet"
         )
 
         transaction_synth_df.SALES_VALUE = np.where(
@@ -104,7 +104,7 @@ if __name__ == "__main__":
     st.divider()
 
     if all_files:
-        raw_store_df = pd.read_csv("./Pepsico App/real_data/store.csv")
+        raw_store_df = pd.read_parquet("./Pepsico App/real_data/store.parquet")
 
         # container_style = {"border": "2px solid #666666", "padding": "10px"}
         before_data_ct = st.container()
@@ -145,8 +145,8 @@ if __name__ == "__main__":
         store_df = store_df.sample(frac=store_frac, random_state=SEED)
 
         # read the transaction data
-        raw_transaction_df = pd.read_csv(
-            "./Pepsico App/real_data/transactions_store.csv"
+        raw_transaction_df = pd.read_parquet(
+            "./Pepsico App/real_data/transactions_store.parquet"
         )
         transaction_df = raw_transaction_df[
             raw_transaction_df["STORE_ID"].isin(store_df.STORE_ID)
@@ -154,7 +154,7 @@ if __name__ == "__main__":
         transaction_df = transaction_df.sample(frac=store_frac)
 
         # read the product data
-        raw_product_df = pd.read_csv("./Pepsico App/real_data/product.csv")
+        raw_product_df = pd.read_parquet("./Pepsico App/real_data/product.parquet")
         product_df = raw_product_df[["PRODUCT_ID", "DEPARTMENT", "BRAND"]]
         product_df = product_df[
             product_df["PRODUCT_ID"].isin(transaction_df.PRODUCT_ID)
